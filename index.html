@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>记录网页ing</title>
+  <style>
+    :root {
+      --bg: #fff8fa;
+      --bg-soft: #fffdf7;
+      --card: rgba(255, 255, 255, 0.92);
+      --pink: #f7b8c9;
+      --pink-deep: #ec95b0;
+      --green: #b7dfc2;
+      --green-deep: #78b58b;
+      --mint: #eaf8ee;
+      --blue: #dcecf8;
+      --text: #5f5a64;
+      --subtext: #938c96;
+      --border: #f2d8e2;
+      --border-soft: #e3f1e7;
+      --shadow: 0 12px 28px rgba(219, 165, 190, 0.13);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(244, 190, 210, 0.23), transparent 24%),
+        radial-gradient(circle at top right, rgba(182, 226, 194, 0.28), transparent 20%),
+        linear-gradient(180deg, #fffafc 0%, #f8fff8 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255, 250, 252, 0.94) 0%, rgba(238, 251, 241, 0.96) 100%);
+      border: 1.5px solid rgba(242, 216, 226, 0.9);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      padding: 24px 22px 18px;
+      margin-bottom: 16px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 160px;
+      height: 160px;
+      right: -24px;
+      top: -28px;
+      background: radial-gradient(circle, rgba(247,184,201,0.42), rgba(247,184,201,0));
+    }
+
+    .hero::after {
+      width: 160px;
+      height: 160px;
+      left: -34px;
+      bottom: -52px;
+      background: radial-gradient(circle, rgba(183,223,194,0.42), rgba(183,223,194,0));
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #8d6e7d;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(242, 216, 226, 0.9);
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.18;
+      color: #6d5f69;
+      letter-spacing: 0.5px;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--subtext);
+      font-size: 14px;
+      max-width: 680px;
+    }
+
+    .hero-sticker {
+      min-width: 120px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.84);
+      border: 1px dashed rgba(120,181,139,0.45);
+      font-size: 12px;
+      color: #8b7a86;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(169, 205, 177, 0.15);
+    }
+
+    .status-banner {
+      margin-top: 16px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(242, 216, 226, 0.95);
+      color: #7d7481;
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1.5px solid rgba(242, 216, 226, 0.95);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .card.green-edge {
+      border-color: rgba(199, 230, 206, 1);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #6f6470;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-desc {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--subtext);
+    }
+
+    .mini-title {
+      font-size: 13px;
+      color: #9e8795;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #7a707c;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1.5px solid rgba(232, 216, 223, 1);
+      border-radius: 16px;
+      padding: 12px 13px;
+      font-size: 15px;
+      background: linear-gradient(180deg, #fffefe 0%, #fffbfc 100%);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #dfaac0;
+      box-shadow: 0 0 0 4px rgba(247,184,201,0.18);
+      transform: translateY(-1px);
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 11px 16px;
+      transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 16px rgba(212, 160, 180, 0.15);
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #f0a5bc 0%, #e48ead 100%);
+    }
+
+    .btn-secondary {
+      color: #6c7c6f;
+      background: linear-gradient(135deg, #eaf7ee 0%, #dff2e5 100%);
+      border: 1px solid rgba(199, 230, 206, 1);
+    }
+
+    .btn-soft {
+      color: #7c7180;
+      background: linear-gradient(135deg, #fff6f9 0%, #fffdf7 100%);
+      border: 1px solid rgba(242, 216, 226, 0.95);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px dashed rgba(220, 195, 206, 0.95);
+      background: linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,250,252,0.92) 100%);
+    }
+
+    .stat .label {
+      font-size: 12px;
+      color: var(--subtext);
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+
+    .stat .value {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #6f6670;
+    }
+
+    .progress-wrap {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,250,252,0.8) 0%, rgba(239,250,243,0.85) 100%);
+      border: 1px dashed rgba(201, 228, 209, 1);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #f5ecef;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f1b6ca 0%, #a8d8b5 100%);
+      transition: width 0.35s ease;
+    }
+
+    .progress-text {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #8a7d88;
+    }
+
+    .calendar-card {
+      padding: 16px;
+    }
+
+    .calendar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .calendar-head h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .month-nav button {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: linear-gradient(135deg, #fff7fa 0%, #eefaf1 100%);
+      border: 1px solid rgba(233, 216, 224, 1);
+      color: #8f7786;
+    }
+
+    .month-label {
+      min-width: 110px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #6d6a70;
+    }
+
+    .week-header,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .week-header {
+      margin-bottom: 8px;
+    }
+
+    .week-header div {
+      text-align: center;
+      font-size: 11px;
+      color: #a28f9b;
+      font-weight: 700;
+    }
+
+    .day-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 999px;
+      border: 1.5px dashed rgba(222, 208, 214, 0.95);
+      background: rgba(255,255,255,0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #7b757d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .day-cell.other-month {
+      opacity: 0.35;
+    }
+
+    .day-cell.recorded {
+      background: linear-gradient(180deg, #eefaf2 0%, #fff8fb 100%);
+      border-style: solid;
+      border-color: rgba(203, 231, 210, 1);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.56);
+    }
+
+    .day-cell.today {
+      box-shadow: 0 0 0 2px rgba(241, 182, 202, 0.5);
+    }
+
+    .day-icon {
+      position: absolute;
+      right: -2px;
+      top: -4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: #fff;
+      border: 1px solid rgba(242, 216, 226, 0.96);
+      box-shadow: 0 5px 12px rgba(224, 180, 196, 0.16);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--subtext);
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.72);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(242,216,226,0.9);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+      background: #f4bfd0;
+    }
+
+    .legend-dot.green { background: #b7dfc2; }
+    .legend-dot.blue { background: #dcecf8; }
+
+    .calendar-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #948893;
+    }
+
+    .history-list,
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .history-item,
+    .archive-item {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,250,252,0.95) 100%);
+      border: 1.5px solid rgba(242, 216, 226, 0.92);
+      border-radius: 22px;
+      padding: 14px;
+      position: relative;
+    }
+
+    .history-item::before,
+    .archive-item::before {
+      content: "";
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      width: 36px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(183, 223, 194, 0.32);
+      transform: rotate(8deg);
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .item-date {
+      font-weight: 800;
+      color: #6d6771;
+      font-size: 15px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fff5f8 0%, #eef8f0 100%);
+      border: 1px solid rgba(242,216,226,0.92);
+      color: #7d7280;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill.green {
+      border-color: rgba(199,230,206,1);
+      background: linear-gradient(135deg, #eef8f0 0%, #fffafc 100%);
+    }
+
+    .item-body {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      color: #6e6671;
+      position: relative;
+      z-index: 1;
+    }
+
+    .item-body strong {
+      color: #8f7583;
+    }
+
+    .empty {
+      color: #9a9099;
+      font-size: 14px;
+      padding: 16px;
+      border: 1.5px dashed rgba(224, 209, 216, 0.95);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,251,252,0.92) 100%);
+    }
+
+    .small {
+      font-size: 12px;
+      color: #958a95;
+    }
+
+    .summary-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .summary-tag {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(242, 216, 226, 0.92);
+      color: #81757f;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #978d96;
+    }
+
+    @media (max-width: 920px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 14px 12px 30px;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .form-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .calendar-card {
+        padding: 15px;
+      }
+
+      .hero {
+        padding: 20px 16px 16px;
+      }
+
+      .month-label {
+        min-width: auto;
+        font-size: 15px;
+      }
+
+      .day-cell {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="hero-tag">🌷 健身是为数不多人生当中只要努力就会有回报的事情</div>
+          <h1>毛绒小羊</h1>
+          <p>一以贯之的努力，不得懈怠的人生，每天的微小积累会决定最终结果</p>
+        </div>
+        <div class="hero-sticker">人生那么长，还有无限可能</div>
+      </div>
+      <div class="status-banner" id="statusBanner">今天的格子还空着，写一点点也算完成打卡。</div>
+    </section>
+
+    <div class="layout">
+      <div class="stack">
+        <section class="card green-edge calendar-card">
+          <div class="calendar-head">
+            <div>
+              <h2>🗓️ 打卡月历</h2>
+              <div class="section-desc" style="margin-bottom:0;">重来一次，你真的会成为，不一样的你吗？</div>
+            </div>
+            <div class="month-nav">
+              <button type="button" id="prevMonthBtn">‹</button>
+              <div class="month-label" id="monthLabel">2026 / 03</div>
+              <button type="button" id="nextMonthBtn">›</button>
+            </div>
+          </div>
+          <div class="week-header">
+            <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="legend">
+            <span><i class="legend-dot"></i> 记录过</span>
+            <span><i class="legend-dot green"></i> 有运动</span>
+            <span><i class="legend-dot blue"></i> 心情亮一点</span>
+          </div>
+          <div class="calendar-note" id="calendarNote">点亮的日期只是轻装饰，不会替代表单记录。</div>
+        </section>
+
+        <section class="card">
+          <h2>✿ 今日记录</h2>
+          <p class="section-desc">世界上大部分事情，都没有太大意义。真理与热爱除外</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="recordDate">日期</label>
+              <input type="date" id="recordDate" />
+            </div>
+            <div class="field">
+              <label for="recordWeight">今日体重（kg）</label>
+              <input type="number" step="0.1" id="recordWeight" placeholder="例如 70.6" />
+            </div>
+            <div class="field full">
+              <label for="foodText">今日饮食</label>
+              <textarea id="foodText" placeholder="例如：早餐豆浆和鸡蛋；中午米饭半碗、鸡胸肉和青菜；晚上有点想吃零食，但控制住了一点。"></textarea>
+            </div>
+            <div class="field full">
+              <label for="exerciseText">今日运动</label>
+              <textarea id="exerciseText" placeholder="例如：快走 40 分钟；拉伸 15 分钟；今天动作做得没有很标准，但还是有认真完成。"></textarea>
+            </div>
+            <div class="field">
+              <label for="waterIntake">今日饮水（ml，可选）</label>
+              <input type="number" step="1" id="waterIntake" placeholder="例如 1800" />
+            </div>
+            <div class="field">
+              <label for="mood">今日状态</label>
+              <select id="mood">
+                <option value="">请选择</option>
+                <option value="很棒">很棒</option>
+                <option value="正常">正常</option>
+                <option value="有点累">有点累</option>
+                <option value="状态一般">状态一般</option>
+                <option value="想偷懒">想偷懒</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="note">补充备注</label>
+              <textarea id="note" placeholder="例如：今天有点浮肿；晚上吃得偏晚；明天想早点睡，也想喝够水。"></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn-primary" id="saveRecordBtn">收下今天的小记录</button>
+            <button class="btn-secondary" id="fillTodayBtn">快速填今天</button>
+            <button class="btn-soft" id="clearFormBtn">清空本次输入</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>🧾 最近打卡</h2>
+          <p class="section-desc">那每天努力也是一样，增加一点微小的概率，就会在不知不觉中赌注翻倍，成为人生赢家？</p>
+          <div class="history-list" id="historyList"></div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="card green-edge">
+          <h2>🌿 基础信息</h2>
+          <p class="section-desc">这一块像小档案卡，先填一次，后面随时改。</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="startDate">开始日期</label>
+              <input type="date" id="startDate" />
+            </div>
+            <div class="field">
+              <label for="startWeight">开始体重（kg）</label>
+              <input type="number" step="0.1" id="startWeight" placeholder="例如 72.5" />
+            </div>
+            <div class="field">
+              <label for="currentWeight">当前体重（kg）</label>
+              <input type="number" step="0.1" id="currentWeight" placeholder="例如 70.8" />
+            </div>
+            <div class="field">
+              <label for="targetWeight">目标体重（kg）</label>
+              <input type="number" step="0.1" id="targetWeight" placeholder="例如 60.0" />
+            </div>
+            <div class="field">
+              <label for="height">身高（cm，可选）</label>
+              <input type="number" step="0.1" id="height" placeholder="例如 165" />
+            </div>
+            <div class="field">
+              <label for="dailyWaterGoal">每日饮水目标（ml，可选）</label>
+              <input type="number" step="1" id="dailyWaterGoal" placeholder="例如 2000" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn-primary" id="saveProfileBtn">保存这张小档案</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>🍀 进度概览</h2>
+          <p class="section-desc">如果想要什么，就应该努力争取，不管用说的也好，用做的也罢，一定努力争取才对。因为畏惧成人或害怕失败，而把真实愿望藏在心底，直至腐败，成为一个自欺欺人的人，是非常不正确的做法。</p>
+          <div class="stats">
+            <div class="stat">
+              <div class="label">已坚持天数</div>
+              <div class="value" id="daysCount">0</div>
+            </div>
+            <div class="stat">
+              <div class="label">已记录天数</div>
+              <div class="value" id="recordDaysCount">0</div>
+            </div>
+            <div class="stat">
+              <div class="label">离目标还差</div>
+              <div class="value" id="remainWeight">--</div>
+            </div>
+            <div class="stat">
+              <div class="label">BMI</div>
+              <div class="value" id="bmiValue">--</div>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div class="mini-title">你的进度条</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">每天脚踏实地的努力，才是唯一可靠的东西</div>
+          </div>
+        </section>
+
+        <section class="card green-edge">
+          <h2>📦 归档与月度小结</h2>
+          <p class="section-desc">月底点一下归档，本月的小努力会被整理起来，保留原始记录</p>
+          <div class="actions" style="margin-top:0;">
+            <button class="btn-primary" id="archiveMonthBtn">归档本月</button>
+          </div>
+          <div class="summary-tags">
+            <span class="summary-tag">周平均体重</span>
+            <span class="summary-tag">周体重变化</span>
+            <span class="summary-tag">平均每日饮水</span>
+            <span class="summary-tag">运动总次数</span>
+            <span class="summary-tag">记录天数</span>
+          </div>
+          <div class="archive-list" id="archiveList"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="footer-note">当前仍是单文件本地网页：刷新不会丢，但只保存在当前设备当前浏览器里。</div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'weight-loss-tracker-v1-data';
+
+    const defaultData = {
+      profile: {
+        startDate: '',
+        startWeight: '',
+        currentWeight: '',
+        targetWeight: '',
+        height: '',
+        dailyWaterGoal: ''
+      },
+      records: [],
+      archives: []
+    };
+
+    let appData = loadData();
+    let calendarView = getInitialCalendarView();
+
+    const els = {
+      startDate: document.getElementById('startDate'),
+      startWeight: document.getElementById('startWeight'),
+      currentWeight: document.getElementById('currentWeight'),
+      targetWeight: document.getElementById('targetWeight'),
+      height: document.getElementById('height'),
+      dailyWaterGoal: document.getElementById('dailyWaterGoal'),
+      saveProfileBtn: document.getElementById('saveProfileBtn'),
+
+      recordDate: document.getElementById('recordDate'),
+      recordWeight: document.getElementById('recordWeight'),
+      foodText: document.getElementById('foodText'),
+      exerciseText: document.getElementById('exerciseText'),
+      waterIntake: document.getElementById('waterIntake'),
+      mood: document.getElementById('mood'),
+      note: document.getElementById('note'),
+      saveRecordBtn: document.getElementById('saveRecordBtn'),
+      fillTodayBtn: document.getElementById('fillTodayBtn'),
+      clearFormBtn: document.getElementById('clearFormBtn'),
+
+      daysCount: document.getElementById('daysCount'),
+      recordDaysCount: document.getElementById('recordDaysCount'),
+      remainWeight: document.getElementById('remainWeight'),
+      bmiValue: document.getElementById('bmiValue'),
+      progressFill: document.getElementById('progressFill'),
+      progressText: document.getElementById('progressText'),
+      historyList: document.getElementById('historyList'),
+      archiveList: document.getElementById('archiveList'),
+      archiveMonthBtn: document.getElementById('archiveMonthBtn'),
+      statusBanner: document.getElementById('statusBanner'),
+      calendarGrid: document.getElementById('calendarGrid'),
+      monthLabel: document.getElementById('monthLabel'),
+      prevMonthBtn: document.getElementById('prevMonthBtn'),
+      nextMonthBtn: document.getElementById('nextMonthBtn'),
+      calendarNote: document.getElementById('calendarNote')
+    };
+
+    init();
+
+    function init() {
+      setTodayDefault();
+      fillProfileForm();
+      bindEvents();
+      renderAll();
+    }
+
+    function bindEvents() {
+      els.saveProfileBtn.addEventListener('click', saveProfile);
+      els.saveRecordBtn.addEventListener('click', saveRecord);
+      els.fillTodayBtn.addEventListener('click', setTodayDefault);
+      els.clearFormBtn.addEventListener('click', clearRecordForm);
+      els.archiveMonthBtn.addEventListener('click', archiveCurrentMonth);
+      els.prevMonthBtn.addEventListener('click', () => changeCalendarMonth(-1));
+      els.nextMonthBtn.addEventListener('click', () => changeCalendarMonth(1));
+    }
+
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return cloneDefaultData();
+        return { ...cloneDefaultData(), ...JSON.parse(raw) };
+      } catch (error) {
+        console.error('读取本地数据失败：', error);
+        return cloneDefaultData();
+      }
+    }
+
+    function cloneDefaultData() {
+      return JSON.parse(JSON.stringify(defaultData));
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      } catch (error) {
+        alert('保存失败了，可能是浏览器存储出了点小问题。你把报错发给我，我再继续修。');
+        console.error('保存数据失败：', error);
+      }
+    }
+
+    function getInitialCalendarView() {
+      const today = new Date();
+      return { year: today.getFullYear(), month: today.getMonth() };
+    }
+
+    function fillProfileForm() {
+      const p = appData.profile;
+      els.startDate.value = p.startDate || '';
+      els.startWeight.value = p.startWeight || '';
+      els.currentWeight.value = p.currentWeight || '';
+      els.targetWeight.value = p.targetWeight || '';
+      els.height.value = p.height || '';
+      els.dailyWaterGoal.value = p.dailyWaterGoal || '';
+    }
+
+    function saveProfile() {
+      appData.profile = {
+        startDate: els.startDate.value,
+        startWeight: normalizeNumber(els.startWeight.value),
+        currentWeight: normalizeNumber(els.currentWeight.value),
+        targetWeight: normalizeNumber(els.targetWeight.value),
+        height: normalizeNumber(els.height.value),
+        dailyWaterGoal: normalizeInteger(els.dailyWaterGoal.value)
+      };
+      saveData();
+      renderAll();
+      alert('基础信息已经替你收好了。');
+    }
+
+    function setTodayDefault() {
+      els.recordDate.value = formatDate(new Date());
+    }
+
+    function clearRecordForm() {
+      els.recordWeight.value = '';
+      els.foodText.value = '';
+      els.exerciseText.value = '';
+      els.waterIntake.value = '';
+      els.mood.value = '';
+      els.note.value = '';
+      setTodayDefault();
+    }
+
+    function saveRecord() {
+      const date = els.recordDate.value;
+      const weight = normalizeNumber(els.recordWeight.value);
+      const food = els.foodText.value.trim();
+      const exercise = els.exerciseText.value.trim();
+      const water = normalizeInteger(els.waterIntake.value);
+      const mood = els.mood.value;
+      const note = els.note.value.trim();
+
+      if (!date) {
+        alert('先挑一个日期，再把今天收进去。');
+        return;
+      }
+
+      if (!weight && !food && !exercise && !water && !mood && !note) {
+        alert('至少写一点点内容再保存，不然这张小卡片会是空的。');
+        return;
+      }
+
+      const record = { date, weight, food, exercise, water, mood, note };
+      const index = appData.records.findIndex(item => item.date === date);
+
+      if (index >= 0) {
+        appData.records[index] = record;
+      } else {
+        appData.records.push(record);
+      }
+
+      appData.records.sort((a, b) => b.date.localeCompare(a.date));
+
+      if (weight) {
+        appData.profile.currentWeight = weight;
+        els.currentWeight.value = weight;
+      }
+
+      saveData();
+      renderAll();
+      alert('今天的小记录已经放好了。');
+    }
+
+    function renderAll() {
+      renderOverview();
+      renderHistory();
+      renderArchives();
+      renderBanner();
+      renderCalendar();
+    }
+
+    function renderOverview() {
+      const profile = appData.profile;
+      const startDate = profile.startDate;
+      const startWeight = parseFloat(profile.startWeight);
+      const currentWeight = parseFloat(profile.currentWeight);
+      const targetWeight = parseFloat(profile.targetWeight);
+      const heightCm = parseFloat(profile.height);
+
+      els.daysCount.textContent = startDate ? diffDays(startDate, formatDate(new Date())) + 1 : 0;
+      els.recordDaysCount.textContent = appData.records.length;
+
+      if (isFinite(currentWeight) && isFinite(targetWeight)) {
+        const remain = (currentWeight - targetWeight).toFixed(1);
+        els.remainWeight.textContent = Number(remain) > 0 ? `${remain} kg` : '接近目标啦';
+      } else {
+        els.remainWeight.textContent = '--';
+      }
+
+      if (isFinite(currentWeight) && isFinite(heightCm) && heightCm > 0) {
+        const bmi = currentWeight / Math.pow(heightCm / 100, 2);
+        els.bmiValue.textContent = bmi.toFixed(1);
+      } else {
+        els.bmiValue.textContent = '--';
+      }
+
+      if (isFinite(startWeight) && isFinite(currentWeight) && isFinite(targetWeight) && startWeight !== targetWeight) {
+        const totalNeed = startWeight - targetWeight;
+        const done = startWeight - currentWeight;
+        let percent = (done / totalNeed) * 100;
+
+        if (!isFinite(percent)) percent = 0;
+        percent = Math.max(0, Math.min(100, percent));
+
+        els.progressFill.style.width = `${percent}%`;
+        els.progressText.textContent = `现在已经走到 ${percent.toFixed(1)}% 了。起点 ${startWeight} kg，现在 ${currentWeight} kg，目标 ${targetWeight} kg。慢一点也没关系，方向是对的。`;
+      } else {
+        els.progressFill.style.width = '0%';
+        els.progressText.textContent = '把起点、现在和目标填好，这里就会慢慢长出你的进度。';
+      }
+    }
+
+    function renderHistory() {
+      const list = appData.records.slice(0, 7);
+      if (!list.length) {
+        els.historyList.innerHTML = '<div class="empty">这里还空着，等你的第一条打卡住进来。</div>';
+        return;
+      }
+
+      els.historyList.innerHTML = list.map(item => {
+        const icon = getRecordIcon(item);
+        return `
+          <div class="history-item">
+            <div class="item-top">
+              <div class="item-date">${escapeHtml(item.date)}</div>
+              <div class="pill">${icon} ${item.weight ? `${escapeHtml(String(item.weight))} kg` : '这天没填体重'}</div>
+            </div>
+            <div class="item-body">
+              <div><strong>饮食：</strong>${escapeHtml(item.food || '今天这格先留白')}</div>
+              <div><strong>运动：</strong>${escapeHtml(item.exercise || '今天没有写运动')}</div>
+              <div><strong>饮水：</strong>${item.water ? `${escapeHtml(String(item.water))} ml` : '今天没记饮水'}</div>
+              <div><strong>状态：</strong>${escapeHtml(item.mood || '没有特别标注状态')}</div>
+              <div><strong>备注：</strong>${escapeHtml(item.note || '没有额外补充')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderArchives() {
+      if (!appData.archives.length) {
+        els.archiveList.innerHTML = '<div class="empty">这里还没有月度小结。月底点一下“归档本月”，它就会把这个月慢慢整理起来。</div>';
+        return;
+      }
+
+      els.archiveList.innerHTML = appData.archives.slice().reverse().map(item => {
+        const weeksHtml = item.weeks.map(week => `
+          <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(224,209,216,0.95);">
+            <div><strong>${escapeHtml(week.label)}</strong></div>
+            <div class="small">平均体重 ${week.avgWeight ?? '--'} kg ｜ 体重变化 ${week.weightChange ?? '--'} kg ｜ 平均饮水 ${week.avgWater ?? '--'} ml ｜ 运动 ${week.exerciseCount} 次 ｜ 记录 ${week.recordDays} 天</div>
+          </div>
+        `).join('');
+
+        return `
+          <div class="archive-item">
+            <div class="item-top">
+              <div class="item-date">${escapeHtml(item.monthLabel)}</div>
+              <div class="pill green">月度小结</div>
+            </div>
+            <div class="item-body">
+              <div><strong>这月平均体重：</strong>${item.monthSummary.avgWeight ?? '--'} kg</div>
+              <div><strong>这月体重变化：</strong>${item.monthSummary.weightChange ?? '--'} kg</div>
+              <div><strong>这月平均每日饮水：</strong>${item.monthSummary.avgWater ?? '--'} ml</div>
+              <div><strong>这月运动总次数：</strong>${item.monthSummary.exerciseCount}</div>
+              <div><strong>这月记录天数：</strong>${item.monthSummary.recordDays}</div>
+              ${weeksHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderBanner() {
+      const today = formatDate(new Date());
+      const todayRecord = appData.records.find(item => item.date === today);
+      const goal = parseFloat(appData.profile.dailyWaterGoal);
+
+      if (!todayRecord) {
+        els.statusBanner.textContent = '今天的格子还空着，写一点点也算完成打卡。';
+        return;
+      }
+
+      const messages = ['今天已经留下记录了。'];
+
+      if (goal && todayRecord.water) {
+        if (todayRecord.water >= goal) {
+          messages.push('饮水也达标了，很稳。');
+        } else {
+          messages.push(`饮水还差 ${goal - todayRecord.water} ml。`);
+        }
+      }
+
+      if (todayRecord.exercise) {
+        messages.push('运动这一格也亮起来了。');
+      }
+
+      if (todayRecord.mood === '很棒') {
+        messages.push('今天的状态看起来不错。');
+      }
+
+      els.statusBanner.textContent = messages.join(' ');
+    }
+
+    function renderCalendar() {
+      const year = calendarView.year;
+      const month = calendarView.month;
+      els.monthLabel.textContent = `${year} / ${String(month + 1).padStart(2, '0')}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysInPrevMonth = new Date(year, month, 0).getDate();
+      const today = formatDate(new Date());
+      const cells = [];
+
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        cells.push({ day, otherMonth: true, dateKey: formatDate(new Date(year, month - 1, day)) });
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        cells.push({ day, otherMonth: false, dateKey: formatDate(new Date(year, month, day)) });
+      }
+
+      while (cells.length % 7 !== 0) {
+        const nextDay = cells.length - (firstDay + daysInMonth) + 1;
+        cells.push({ day: nextDay, otherMonth: true, dateKey: formatDate(new Date(year, month + 1, nextDay)) });
+      }
+
+      els.calendarGrid.innerHTML = cells.map(cell => {
+        const record = appData.records.find(item => item.date === cell.dateKey);
+        const icon = record ? getRecordIcon(record) : '';
+        const classes = [
+          'day-cell',
+          cell.otherMonth ? 'other-month' : '',
+          record ? 'recorded' : '',
+          cell.dateKey === today ? 'today' : ''
+        ].filter(Boolean).join(' ');
+
+        return `
+          <div class="${classes}" title="${buildCalendarTitle(cell.dateKey, record)}">
+            <span>${cell.day}</span>
+            ${record ? `<span class="day-icon">${icon}</span>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+      const recordCount = appData.records.filter(item => item.date.startsWith(monthKey)).length;
+      els.calendarNote.textContent = recordCount
+        ? `这个月已经点亮了 ${recordCount} 天。小图标只是轻装饰，真正的内容还是在表单和记录卡里。`
+        : '这个月还没点亮日期。等你开始记录，它们会一点点亮起来。';
+    }
+
+    function changeCalendarMonth(offset) {
+      const viewDate = new Date(calendarView.year, calendarView.month + offset, 1);
+      calendarView.year = viewDate.getFullYear();
+      calendarView.month = viewDate.getMonth();
+      renderCalendar();
+    }
+
+    function buildCalendarTitle(dateKey, record) {
+      if (!record) return `${dateKey}：这天还没有记录`;
+      const parts = [`${dateKey}：有记录`];
+      if (record.weight) parts.push(`体重 ${record.weight} kg`);
+      if (record.mood) parts.push(`状态 ${record.mood}`);
+      if (record.exercise) parts.push('有运动记录');
+      return parts.join(' ｜ ');
+    }
+
+    function getRecordIcon(record) {
+      if (record.mood === '很棒') return '💖';
+      if (record.exercise && record.exercise.trim()) return '🌿';
+      if (record.mood === '有点累' || record.mood === '想偷懒') return '☁️';
+      if (record.water && parseInt(record.water, 10) > 0) return '💧';
+      return '✿';
+    }
+
+    function archiveCurrentMonth() {
+      if (!appData.records.length) {
+        alert('现在还没有每日记录，所以还归不了档。');
+        return;
+      }
+
+      const monthKey = getCurrentMonthKey();
+      const currentMonthRecords = appData.records.filter(r => r.date.startsWith(monthKey));
+
+      if (!currentMonthRecords.length) {
+        alert('这个月还没有记录，所以暂时不能归档。');
+        return;
+      }
+
+      const monthLabel = `${monthKey} 的小结`;
+      const weeks = buildWeeklySummary(currentMonthRecords);
+      const monthSummary = buildMonthSummary(currentMonthRecords);
+
+      const archiveItem = {
+        monthKey,
+        monthLabel,
+        weeks,
+        monthSummary,
+        createdAt: new Date().toISOString()
+      };
+
+      const existsIndex = appData.archives.findIndex(item => item.monthKey === monthKey);
+      if (existsIndex >= 0) {
+        appData.archives[existsIndex] = archiveItem;
+      } else {
+        appData.archives.push(archiveItem);
+      }
+
+      saveData();
+      renderArchives();
+      alert('这个月的小努力已经整理进档案夹里了。原始每日记录还会继续保留。');
+    }
+
+    function buildWeeklySummary(records) {
+      const groups = {};
+
+      records.forEach(record => {
+        const d = new Date(record.date + 'T00:00:00');
+        const week = getWeekOfMonth(d);
+        const key = `${record.date.slice(0, 7)}-W${week}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(record);
+      });
+
+      return Object.entries(groups).map(([key, group]) => {
+        const sorted = group.slice().sort((a, b) => a.date.localeCompare(b.date));
+        const weights = sorted.map(r => parseFloat(r.weight)).filter(Number.isFinite);
+        const waters = sorted.map(r => parseInt(r.water)).filter(Number.isFinite);
+        const exerciseCount = sorted.filter(r => r.exercise && r.exercise.trim()).length;
+        const firstWeight = weights.length ? weights[0] : null;
+        const lastWeight = weights.length ? weights[weights.length - 1] : null;
+
+        return {
+          label: `第 ${key.split('W')[1]} 周`,
+          avgWeight: weights.length ? average(weights).toFixed(1) : '--',
+          weightChange: weights.length >= 2 ? (lastWeight - firstWeight).toFixed(1) : '--',
+          avgWater: waters.length ? Math.round(average(waters)) : '--',
+          exerciseCount,
+          recordDays: sorted.length
+        };
+      });
+    }
+
+    function buildMonthSummary(records) {
+      const sorted = records.slice().sort((a, b) => a.date.localeCompare(b.date));
+      const weights = sorted.map(r => parseFloat(r.weight)).filter(Number.isFinite);
+      const waters = sorted.map(r => parseInt(r.water)).filter(Number.isFinite);
+      const exerciseCount = sorted.filter(r => r.exercise && r.exercise.trim()).length;
+      const firstWeight = weights.length ? weights[0] : null;
+      const lastWeight = weights.length ? weights[weights.length - 1] : null;
+
+      return {
+        avgWeight: weights.length ? average(weights).toFixed(1) : '--',
+        weightChange: weights.length >= 2 ? (lastWeight - firstWeight).toFixed(1) : '--',
+        avgWater: waters.length ? Math.round(average(waters)) : '--',
+        exerciseCount,
+        recordDays: sorted.length
+      };
+    }
+
+    function average(arr) {
+      return arr.reduce((sum, n) => sum + n, 0) / arr.length;
+    }
+
+    function getCurrentMonthKey() {
+      const today = new Date();
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function getWeekOfMonth(date) {
+      const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+      return Math.ceil((date.getDate() + firstDay) / 7);
+    }
+
+    function diffDays(start, end) {
+      const startDate = new Date(start + 'T00:00:00');
+      const endDate = new Date(end + 'T00:00:00');
+      const diff = endDate - startDate;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function formatDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function normalizeNumber(value) {
+      if (value === '' || value === null || value === undefined) return '';
+      const n = parseFloat(value);
+      return Number.isFinite(n) ? Number(n.toFixed(1)) : '';
+    }
+
+    function normalizeInteger(value) {
+      if (value === '' || value === null || value === undefined) return '';
+      const n = parseInt(value, 10);
+      return Number.isFinite(n) ? n : '';
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/\n/g, '<br>');
+    }
+  </script>
+</body>
+</html>
